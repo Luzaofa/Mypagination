@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+
+{% load staticfiles %}
+
+<head>
+    <meta charset="utf-8">
+    <title>自定义分页</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="{% static 'bootstrap/bootstrap.min.css' %}" media="all">
+</head>
+<body>
+<div style="width: 650px; position: relative; left:25%;">
+
+    <fieldset style="margin-top: 20px">
+        <legend>数据分页（django功能）</legend>
+    </fieldset>
+
+    <div class="panel panel-default">
+        <table class="table table-hover">
+            <thead class="danger">
+            <tr class="info">
+                <th>标题</th>
+                <th>作者</th>
+                <th>浏览量</th>
+                <th>评论量</th>
+            </tr>
+            </thead>
+
+            {% for contact in contacts %}
+                <tr class="">
+                    <td><a href="">{{ contact.id }}</a></td>
+                    <td>{{ contact.username }}</td>
+                    <td>{{ contact.sex }}</td>
+                    <td>{{ contact.experience }}</td>
+                </tr>
+            {% endfor %}
+
+        </table>
+    </div>
+
+    <div class="btn-group-sm">
+        <span class="step-links">
+            {% if contacts.has_previous %}      {# 判断是否有前一页 #}
+                <button class="">
+                    <a href="?page=1">第一页</a>
+                </button>
+
+                <button class="">
+                    <a href="?page={{ contacts.previous_page_number }}"><i class="">上一页</i></a>
+                                             {# 返回上一页的页码 #}
+                </button>
+            {% endif %}
+
+            <span class="current">
+                <button>
+                    第 {{ contacts.number }}页  共 {{ contacts.paginator.num_pages }}页
+                </button>
+
+                {% for pg in part_page %}
+                    <button class="">
+                    <a href="?page={{ pg }}">{{ pg }}</a>
+                    </button>
+                {% endfor %}
+
+            </span>
+
+            {% if contacts.has_next %}      {# 判断是否有下一页 #}
+                <button class="">
+                    <a href="?page={{ contacts.next_page_number }}"><i class="">下一页</i></a>
+                </button>
+
+                <button class="">
+                    <a href="?page={{ contacts.paginator.num_pages }}">最后一页</a>
+                </button>
+            {% endif %}
+
+        </span>
+    </div>
+</div>
+
+
+<script src="{% static 'bootstrap/bootstrap.min.js' %}" charset="utf-8"></script>
+
+</body>
+</html>
